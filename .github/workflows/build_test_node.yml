@@ -24,6 +24,6 @@ jobs:
     - name: Start the server
       run : npm run server
     - name: Serve html file
-      run: npm start   
+      run: cd .. && npm start   
     - name: Run integration tests
       run: npm test
