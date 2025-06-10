@@ -23,11 +23,11 @@ jobs:
       run: npm install
     - name: Install Playwright browsers
       run: npx playwright install 
-    - name: Serve html file
-      run: npm start &  
     - name: Start the server
       working-directory: ./server
       run : node server.js &
+    - name: Serve html file
+      run: npm start &  
     - name: Run integration tests
       run: npm test
 
