@@ -1,5 +1,6 @@
 import * as api from './api.js';
 
+
 let host;
 
 // Determine the host based on the current hostname where the app is running
@@ -14,6 +15,7 @@ if (window.location.hostname === 'localhost' || window.location.hostname === '12
 
 // Set the determined host for your API calls
 api.settings.host = host;
+
 
 export const login = api.login;
 export const register = api.register;
