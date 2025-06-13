@@ -1,5 +1,5 @@
 
-name: Build and test node
+name: Build test and deploy Library App
 
 on:
   push:
@@ -8,32 +8,31 @@ on:
     branches: [ "main" ]
 
 jobs:
-  ui_tests:
+  build_and_test:
 
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout repository  
       uses: actions/checkout@v4
-    - name: Use Node.js 18
+    - name: Use Node.js 20
       uses: actions/setup-node@v4
       with:
-        node-version: 18
+        node-version: 20
     - name: Install dependencies    
       run: npm install
     - name: Install Playwright browsers
       run: npx playwright install 
     - name: Start the server
-      working-directory: ./server
-      run : node server.js &
+      run : npm run start-be &
     - name: Serve html file
-      run: npm start &  
-    - name: Run integration tests
+      run: npm run start-fe &  
+    - name: Execute the UI tests
       run: npm test
 
   deploy_server:
     if: github.ref == 'refs/heads/main'
-    needs: ui_tests
+    needs: build_and_test
     runs-on: ubuntu-latest
     steps:
       - name: Deploy to production
