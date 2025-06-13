@@ -26,7 +26,7 @@ jobs:
     - name: Start the server
       run : npm run start-be &
     - name: Serve html file
-      run: npm start-fe &  
+      run: npm run start-fe &  
     - name: Execute the UI tests
       run: npm test
 
