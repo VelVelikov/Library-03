@@ -1,20 +1,22 @@
 import * as api from './api.js';
 
 
-let host;
+// let host;
 
-// Determine the host based on the current hostname where the app is running
-if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-    // When running locally
-    host = 'http://localhost:3030';
-} else {
-    // When deployed on Render or any other production-like environment
-    // You can make this more specific if you have multiple deployed environments
-    host = 'https://library-03.onrender.com';
-}
+// // Determine the host based on the current hostname where the app is running
+// if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+//     // When running locally
+//     host = 'http://localhost:3030';
+// } else {
+//     // When deployed on Render or any other production-like environment
+//     // You can make this more specific if you have multiple deployed environments
+//     host = 'https://library-03.onrender.com';
+// }
 
 // Set the determined host for your API calls
-api.settings.host = host;
+//api.settings.host = host;
+
+const host = api.settings.host;
 
 
 export const login = api.login;

@@ -22,33 +22,38 @@ jobs:
     - name: Install dependencies    
       run: npm install
     - name: Install Playwright browsers
-      run: npx playwright install 
+      run: npx playwright install
+    - name: Change the backend to localhost 
+      run: echo "export const settings = {host:\"http://localhost:3030\" }" > src/config.js
     - name: Start the server
       run : npm run start-be &
     - name: Serve html file
       run: npm run start-fe &  
     - name: Execute the UI tests
       run: npm test
-
-  deploy_server:
-    if: github.ref == 'refs/heads/main'
-    needs: build_and_test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy to production
-        uses: johnbeynon/render-deploy-action@v0.0.8
-        with:
-          service-id: ${{ secrets.MY_RENDER_SERVICE_ID }}
-          api-key: ${{ secrets.MY_RENDER_API_KEY }}
         
-  deploy_static_html:
-    if: github.ref == 'refs/heads/main'
-    needs: deploy_server
+  deploy-be:
     runs-on: ubuntu-latest
+    needs: build_and_test
+    if: github.ref == 'refs/heads/main'
     steps:
-      - name: Deploy to production
-        uses: johnbeynon/render-deploy-action@v0.0.8
+      - name: Deploy to Production
+        uses: JorgeLNJunior/render-deploy@v1.4.5
         with:
-          service-id: ${{ secrets.MY_RENDER_SERVICE_ID_STATIC }}
-          api-key: ${{ secrets.MY_RENDER_API_KEY }}        
+          service_id: ${{ secrets.MY_RENDER_SERVICE_ID }}
+          api_key: ${{ secrets.MY_RENDER_API_KEY }}
+          wait_deploy: true
+          
+  deploy-fe:
+    runs-on: ubuntu-latest
+    needs: deploy-be
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Deploy to Production
+        uses: JorgeLNJunior/render-deploy@v1.4.5
+        with:
+          service_id: ${{ secrets.MY_RENDER_SERVICE_ID_STATIC }}
+          api_key: ${{ secrets.MY_RENDER_API_KEY }}
+          wait_deploy: true        
+          
 
